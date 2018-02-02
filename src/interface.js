@@ -2,7 +2,6 @@ $(document).ready(function () {
 
   thermostat = new Thermostat()
 
-  // get user location
   $("#user-location").submit(function(event){
     event.preventDefault();
     var city = $("#city").val();
@@ -21,17 +20,7 @@ $(document).ready(function () {
 
   function updateTemp(){
     $("#current-temp").text(thermostat.getTemperature());
-      $("#current-temp").attr('class',thermostat.energyUsage());
-    if(thermostat.isMaximum()) {
-      $("#temperature-up").prop("disabled", true);
-    } else {
-      $("#temperature-up").prop("disabled", false);
-    }
-    if(thermostat.isMinimum()) {
-      $("#temperature-down").prop("disabled", true);
-    } else {
-      $("#temperature-down").prop("disabled", false);
-    }
+    $("#current-temp").attr('class',thermostat.energyUsage());
   };
 
   $("#temperature-up").click(function (event) {
@@ -51,7 +40,8 @@ $(document).ready(function () {
 
   $("#powersaving-on").click(function (event) {
     thermostat.turnPowerSavingOn();
-    $("#power-saving-status").text ('on');
+    $("#power-saving-status").text('on');
+    updateTemp();
   });
 
   $("#powersaving-off").click(function (event) {
