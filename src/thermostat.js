@@ -16,23 +16,32 @@ Thermostat.prototype = {
     if (this.isMaximum()) { return }
     this.temperature += 1
   },
+
   turnDown: function () {
     if (this.isMinimum()) { return }
     this.temperature -= 1
   },
 
   isMinimum: function () {
-    return this.temperature === this.MIN_TEMP
+    return this.temperature <= this.MIN_TEMP
   },
+
   isMaximum: function () {
     if (this.isPowerSavingOn() === true) {
-      return this.temperature === this.MAX_TEMP_PS;
+      return this.temperature >= this.MAX_TEMP_PS;
     }
-    return this.temperature === this.MAX_TEMP_NO_PS;
+    return this.temperature >= this.MAX_TEMP_NO_PS;
   },
 
   isPowerSavingOn: function () { return this.powerSaving },
-  turnPowerSavingOn: function () { this.powerSaving = true },
+
+  turnPowerSavingOn: function () { 
+    this.powerSaving = true;
+    if (this.isMaximum()) {
+      this.temperature = this.MAX_TEMP_PS;
+    }
+  },
+
   turnPowerSavingOff: function () { this.powerSaving = false },
 
   resetTemp: function () { this.temperature = this.DEFAULT_TEMP },
@@ -48,5 +57,4 @@ Thermostat.prototype = {
         return 'high-usage';
     }
   }
-
 }
